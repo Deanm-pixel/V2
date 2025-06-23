@@ -5,7 +5,7 @@ const { verifyRole } = require('../middleware/auth');
 const router = express.Router();
 
 // Karte erstellen
-router.post('/', async (req, res) => {
+router.post('/', verifyRole(['User', 'Admin']), async (req, res) => {
   const { title, content, tags, expiresAt } = req.body;
   const createdBy = req.user.id;
   try {
@@ -28,7 +28,7 @@ router.get('/', async (req, res) => {
 });
 
 // Karte aktualisieren
-router.put('/:id', async (req, res) => {
+router.put('/:id', verifyRole(['User', 'Admin']), async (req, res) => {
   const { id } = req.params;
   const { title, content, tags, expiresAt } = req.body;
   try {
@@ -52,7 +52,7 @@ router.put('/:id', async (req, res) => {
 });
 
 // Karte löschen
-router.delete('/:id', async (req, res) => {
+router.delete('/:id', verifyRole(['User', 'Admin']), async (req, res) => {
   const { id } = req.params;
   try {
     const card = await Card.findById(id);
