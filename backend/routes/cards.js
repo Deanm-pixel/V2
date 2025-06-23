@@ -1,10 +1,10 @@
 const express = require('express');
 const Card = require('../models/Card');
-const { verifyToken, verifyRole } = require('../middleware/auth');
+const { verifyRole } = require('../middleware/auth');
 
 const router = express.Router();
 
-// Create card
+// Karte erstellen
 router.post('/', async (req, res) => {
   const { title, content, tags, expiresAt } = req.body;
   const createdBy = req.user.id;
@@ -17,7 +17,7 @@ router.post('/', async (req, res) => {
   }
 });
 
-// Get all cards
+// Alle Karten abrufen
 router.get('/', async (req, res) => {
   try {
     const cards = await Card.find().populate('createdBy', 'username');
@@ -27,7 +27,7 @@ router.get('/', async (req, res) => {
   }
 });
 
-// Update card
+// Karte aktualisieren
 router.put('/:id', async (req, res) => {
   const { id } = req.params;
   const { title, content, tags, expiresAt } = req.body;
@@ -51,7 +51,7 @@ router.put('/:id', async (req, res) => {
   }
 });
 
-// Delete card
+// Karte löschen
 router.delete('/:id', async (req, res) => {
   const { id } = req.params;
   try {
